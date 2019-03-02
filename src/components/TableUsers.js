@@ -6,7 +6,7 @@ const TableUsers = ({
   users,
   printProperties,
   labels,
-  selectUserId,
+  selectedUserId,
   selectUser
 }) => {
   const handleClick = id => {
@@ -29,7 +29,7 @@ const TableUsers = ({
               key={user.id}
               data-id={user.id}
               onClick={() => handleClick(user.id)}
-              className={user.id === selectUserId ? "selected-row" : ""}
+              className={user.id === selectedUserId ? "selected-row" : ""}
             >
               {printProperties.map((attr, index) => (
                 <td key={index}>{user[attr]}</td>

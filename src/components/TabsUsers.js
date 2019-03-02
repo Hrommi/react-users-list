@@ -45,8 +45,7 @@ class TabsUsers extends Component {
 
   render() {
     const { activeTab } = this.state;
-    const { users, labels, selectUserId, selectUser } = this.props;
-    console.log(labels);
+    const { users, labels, selectedUserId, selectUser } = this.props;
     return (
       <Fragment>
         <Nav tabs>
@@ -74,7 +73,7 @@ class TabsUsers extends Component {
                 }
                 labels={labels}
                 printProperties={printProperties}
-                selectUserId={selectUserId}
+                selectedUserId={selectedUserId}
                 selectUser={selectUser}
               />
             </TabPane>
