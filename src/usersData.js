@@ -26,7 +26,7 @@ export const users = [
     position: "CTO",
     email: "Nathan@yesenia.net",
     phone: "1-463-123-4447",
-    skills: "all",
+    skills: "Yoda",
     date: "26 August 2013"
   },
   {

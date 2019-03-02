@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Container } from "reactstrap";
 
 import { users } from "./usersData";
-import TableUsers from "./components/TableUsers";
+import TabsUsers from "./components/TabsUsers";
 
 const labels = {
   id: "Id",
@@ -16,6 +16,7 @@ const labels = {
 
 class App extends Component {
   state = {
+    users: users,
     selectUserId: null
   };
 
@@ -26,7 +27,7 @@ class App extends Component {
   };
 
   render() {
-    const { selectUserId } = this.state;
+    const { users, selectUserId } = this.state;
 
     return (
       <Container className="py-4">
@@ -34,10 +35,10 @@ class App extends Component {
           users
             .filter(user => user.id === selectUserId)
             .map((user, index) => <p key="user.id">{user.name}</p>)}
-        <TableUsers
+
+        <TabsUsers
           users={users}
           labels={labels}
-          printProperties={["name", "email", "position"]}
           selectUserId={selectUserId}
           selectUser={this.selectUser}
         />
