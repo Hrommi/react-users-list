@@ -26,6 +26,12 @@ class App extends Component {
     });
   };
 
+  deselectUser = () => {
+    this.setState({
+      selectUserId: null
+    });
+  };
+
   render() {
     const { users, selectUserId } = this.state;
 
@@ -41,6 +47,7 @@ class App extends Component {
           labels={labels}
           selectUserId={selectUserId}
           selectUser={this.selectUser}
+          deselectUser={this.deselectUser}
         />
       </Container>
     );

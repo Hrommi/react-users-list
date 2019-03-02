@@ -37,9 +37,9 @@ class TabsUsers extends Component {
   toggleTabs = tab => {
     if (this.state.activeTab !== tab) {
       this.setState({
-        selectUserId: null,
         activeTab: tab
       });
+      this.props.deselectUser();
     }
   };
 
