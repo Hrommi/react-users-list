@@ -33,6 +33,10 @@ class App extends Component {
       inputDate: "",
       inputExtraGroup: []
     },
+    formAction: {
+      action: "",
+      buttonLabel: ""
+    },
     showedExtraGroup: false
   };
 
@@ -57,34 +61,7 @@ class App extends Component {
       )
     });
     this.deselectUser();
-  };
-
-  toggleFormUser = () => {
-    this.setState(prevState => ({
-      showedFormUser: !prevState.showedFormUser
-    }));
-  };
-
-  handleInputChange = e => {
-    const { target } = e;
-    const value =
-      target.tagName === "SELECT"
-        ? [].filter.call(target.options, o => o.selected).map(o => o.value)
-        : target.type === "checkbox"
-        ? target.checked
-        : target.value;
-    const { name } = target;
-    this.setState(prevState => ({
-      formInputs: {
-        ...prevState.formInputs,
-        [name]: value
-      }
-    }));
-  };
-
-  handleFormSubmit = e => {
-    e.preventDefault();
-    this.addUser();
+    this.hideFormUser();
   };
 
   addUser = () => {
@@ -108,6 +85,64 @@ class App extends Component {
       skills: inputSkills,
       date: inputDate
     };
+    this.setState(prevState => ({
+      formInputs: {
+        inputName: "",
+        inputPosition: "",
+        inputEmail: "",
+        inputPhone: "",
+        inputSkills: "",
+        inputDate: "",
+        inputExtraGroup: []
+      },
+      showedExtraGroup: false,
+      users: [...prevState.users, editedUser]
+    }));
+    this.deselectUser();
+    this.hideFormUser();
+  };
+
+  editUser = () => {
+    const { formInputs, showedExtraGroup, selectedUserId } = this.state;
+    const {
+      inputName,
+      inputPosition,
+      inputEmail,
+      inputPhone,
+      inputSkills,
+      inputDate,
+      inputExtraGroup
+    } = formInputs;
+    const editedUser = {
+      id: selectedUserId,
+      extraGroup: showedExtraGroup ? inputExtraGroup : [],
+      name: inputName,
+      position: inputPosition,
+      email: inputEmail,
+      phone: inputPhone,
+      skills: inputSkills,
+      date: inputDate
+    };
+    this.setState(prevState => ({
+      formInputs: {
+        inputName: "",
+        inputPosition: "",
+        inputEmail: "",
+        inputPhone: "",
+        inputSkills: "",
+        inputDate: "",
+        inputExtraGroup: []
+      },
+      showedExtraGroup: false,
+      users: prevState.users.map(user =>
+        user.id === selectedUserId ? editedUser : user
+      )
+    }));
+    this.hideFormUser();
+  };
+
+  showAddForm = () => {
+    this.showFormUser();
     this.setState({
       formInputs: {
         inputName: "",
@@ -119,15 +154,89 @@ class App extends Component {
         inputExtraGroup: []
       },
       showedExtraGroup: false,
-      users: [...this.state.users, editedUser]
+      formAction: {
+        action: "add",
+        buttonLabel: "Add"
+      }
     });
-    this.toggleFormUser();
+  };
+
+  showEditForm = () => {
+    const { selectedUser } = this.state;
+    const {
+      name,
+      position,
+      email,
+      phone,
+      skills,
+      date,
+      extraGroup
+    } = selectedUser;
+    this.showFormUser();
+    this.setState({
+      formInputs: {
+        inputName: name,
+        inputPosition: position,
+        inputEmail: email,
+        inputPhone: phone,
+        inputSkills: skills,
+        inputDate: date,
+        inputExtraGroup: extraGroup
+      },
+      showedExtraGroup: extraGroup.length > 0 ? true : false,
+      formAction: {
+        action: "edit",
+        buttonLabel: "Edit"
+      }
+    });
+  };
+
+  showFormUser = () => {
+    this.setState({
+      showedFormUser: true
+    });
+  };
+
+  hideFormUser = () => {
+    this.setState({
+      showedFormUser: false
+    });
   };
 
   toggleExtraGroup = () => {
     this.setState(prevState => ({
       showedExtraGroup: !prevState.showedExtraGroup
     }));
+  };
+
+  handleInputChange = e => {
+    const { target } = e;
+    const value =
+      target.tagName === "SELECT"
+        ? [].filter.call(target.options, o => o.selected).map(o => o.value)
+        : target.type === "checkbox"
+        ? target.checked
+        : target.value;
+    const { name } = target;
+    this.setState(prevState => ({
+      formInputs: {
+        ...prevState.formInputs,
+        [name]: value
+      }
+    }));
+  };
+
+  handleFormSubmit = e => {
+    e.preventDefault();
+    switch (this.state.formAction.action) {
+      case "add":
+        this.addUser();
+        break;
+      case "edit":
+        this.editUser();
+        break;
+      default:
+    }
   };
 
   render() {
@@ -137,7 +246,8 @@ class App extends Component {
       selectedUser,
       showedFormUser,
       showedExtraGroup,
-      formInputs
+      formInputs,
+      formAction
     } = this.state;
 
     return (
@@ -146,7 +256,8 @@ class App extends Component {
           selectedUserId={selectedUserId}
           selectedUser={selectedUser}
           deleteUser={this.deleteUser}
-          toggleFormUser={this.toggleFormUser}
+          showAddForm={this.showAddForm}
+          showEditForm={this.showEditForm}
         />
         {showedFormUser && (
           <FormUser
@@ -155,8 +266,9 @@ class App extends Component {
             extraGroups={extraGroups}
             toggleExtraGroup={this.toggleExtraGroup}
             showedExtraGroup={showedExtraGroup}
-            toggleFormUser={this.toggleFormUser}
+            hideFormUser={this.hideFormUser}
             formInputs={formInputs}
+            buttonLabel={formAction.buttonLabel}
           />
         )}
 

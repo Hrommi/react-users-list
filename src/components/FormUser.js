@@ -12,13 +12,14 @@ import {
 class FormUser extends Component {
   render() {
     const {
-      toggleFormUser,
+      hideFormUser,
       handleInputChange,
       extraGroups,
       formInputs,
       toggleExtraGroup,
       showedExtraGroup,
-      handleFormSubmit
+      handleFormSubmit,
+      buttonLabel
     } = this.props;
     const {
       inputName,
@@ -130,6 +131,7 @@ class FormUser extends Component {
                   type="checkbox"
                   name="showedExtraGroup"
                   id="showedExtraGroup"
+                  checked={showedExtraGroup}
                   value={showedExtraGroup}
                   onChange={toggleExtraGroup}
                 />{" "}
@@ -161,8 +163,8 @@ class FormUser extends Component {
           )}
           <FormGroup row>
             <Col sm={{ size: 10, offset: 2 }} className="text-right">
-              <Button color="success">Add</Button>{" "}
-              <Button color="secondary" onClick={toggleFormUser}>
+              <Button color="success">{buttonLabel}</Button>{" "}
+              <Button color="secondary" onClick={hideFormUser}>
                 Cancel
               </Button>
             </Col>
