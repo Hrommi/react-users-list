@@ -24,17 +24,20 @@ class ActionButtons extends Component {
   };
 
   render() {
-    const { selectedUserId, selectedUser } = this.props;
+    const { selectedUserId, selectedUser, toggleFormUser } = this.props;
     const { modal } = this.state;
     return (
       <Fragment>
         <div className="mb-4">
+          <Button color="primary" onClick={toggleFormUser}>
+            Add user
+          </Button>{" "}
           <Button
-            color="primary"
+            color="danger"
             disabled={!selectedUserId}
             onClick={this.toggleModal}
           >
-            Удалить
+            Delete user
           </Button>
         </div>
         <ModalDeleteUser
