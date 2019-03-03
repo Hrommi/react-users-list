@@ -1,4 +1,4 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Тестовый проект на основе [Create React App](https://github.com/facebook/create-react-app) и [reactstrap](https://github.com/reactstrap/reactstrap).
 
 ## Available Scripts
 
